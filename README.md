@@ -1,7 +1,7 @@
 ### Image Registration
 #### Coloreando imágenes del Imperio Ruso
 
-Scripts realizado en el marco de la asignatura ‘Procesado Digital de Imágenes’, Ingeniería de Telecomunicaciones, 4º Curso, Universidad de Granada.
+Scripts realizado en el marco de la asignatura ‘Laboratorio Multimedia’, Ingeniería de Telecomunicaciones, 5º Curso, Universidad de Granada.
 
 ***
 
