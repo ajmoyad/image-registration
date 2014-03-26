@@ -1,4 +1,20 @@
-% PROYECTO: COLOREANDO IMÁGENES DEL IMPERIO RUSO
+%% Copyright 2013 Antonio Moya (ajmoyad@gmail.com)
+%
+% This program is free software: you can redistribute it and/or modify
+% it under the terms of the GNU General Public License as published by
+% the Free Software Foundation, either version 2 of the License, or
+% (at your option) any later version.
+%
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+% GNU General Public License for more details. 
+%
+% You should have received a copy of the GNU General Public License
+% along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+%% PROYECTO: COLOREANDO IMÁGENES DEL IMPERIO RUSO
 %
 %   Script de demostración y generación de estadísticas del proyecto de
 %   registrado de imágenes de la asignatura Laboratorio Multimedia.
@@ -22,9 +38,14 @@
 % minutos.
 
 %% Preliminar
+
+% Limpiamos el workspace y las posibles ventanas abiertas
 clear, close all, clc
 
-% Lista de ficheros de imagen, para sencillez en la carga posterior
+% Añadimos la ruta donde se encuentran las funciones
+addpath('./src');
+
+% Lista de ficheros de imagen, para sencillez en la carga posterior.
 f=cell(1,16);
 
 f{1}='images/00125v.jpg';
@@ -37,30 +58,29 @@ f{7}='images/00398v.jpg';
 f{8}='images/00564v.jpg';
 f{9}='images/01167v.jpg';
 f{10}='images/31421v.jpg';
-%f{11}='images/00458u.tif';
-%f{12}='images/00911u.tif';
-%f{13}='images/01043u.tif';
-%f{14}='images/01047u.tif';
-%f{15}='images/01657u.tif';
-%f{16}='images/01861a.tif';
+f{11}='images/00458u.tif';
+f{12}='images/00911u.tif';
+f{13}='images/01043u.tif';
+f{14}='images/01047u.tif';
+f{15}='images/01657u.tif';
+f{16}='images/01861a.tif';
 
 
 %% Ejecución singular
 
 % SELECCIONE una imagen de entre la lista anterior
-imagen=16;
+imagen=1;
 % ------------------------------------------------
-
 
 
 % Selección automática de la ventana
 if imagen<11
-    vent_ini=8;
+    vent_ini=8; % Ventana para imagenes pequeñas
 else
-    vent_ini=20;
+    vent_ini=20; % Ventana para imagenes grandes
 end
 
-
+% Cargamos la imagen seleccionada
 I=imread(f{imagen});
 I=im2double(I);
     
@@ -70,6 +90,7 @@ B=I(1:h,:);
 G=I(h+1:h*2,:);
 R=I(h*2+1:h*3,:);
 
+% Limpiamos de memoria las variables que no vamos a usar.
 clear I h
 
 % Cálculo de los desplazamientos
@@ -113,14 +134,19 @@ figure(31),imshow(Irecortada)
 %% Estadísticas de tiempos por grupo de imágenes
 
 % SELECCIONE los siguientes parámetros
-seleccion=1; % 0=>imágenes pequeñas, 1=>imágenes grandes
+seleccion=0; % 0=>imágenes pequeñas, 1=>imágenes grandes
 ecualizacion=1; % 0=> desactivada, 1=> activada
 iteraciones=20; % Número de iteraciones
 % -------------------------------------
 
 
-
-
+% Seleccionaos los parámetros correctos para cada simulación.
+%   n: es el numero  de imágenes de cada conjunto
+%   vent_ini: es el tamaño de ventana inicial
+%   offset: ya que en la variabla f listamos las imágenes de manera
+%           ordenada, offset es para ajustar ese índice a fin de escoger
+%           las imágenes y calcular las medias de los tiempos de ejecución
+%           correctamente.
 if seleccion==0
     n=10;
     vent_ini=8;
@@ -134,7 +160,7 @@ else
 end
 
 
-  
+% Tiempos de ejecución por canal y proceso, e imagen  
 tiempo_rojo=zeros(iteraciones,n);
 tiempo_azul=zeros(iteraciones,n);
 tiempo_corte=zeros(iteraciones,n);
@@ -219,12 +245,14 @@ elseif seleccion==1
     texto='grandes';
 end
 
+% Tiempos medios
 trojo_medio=mean(mean(tiempo_rojo));
 tazul_medio=mean(mean(tiempo_azul));
 tcut_medio=mean(mean(tiempo_corte));
 tecu_medio=mean(mean(tiempo_ecu));
 ttotal_medio=mean(mean(tiempo_total));
 
+% Muestra de los resultados finales
 disp(' ')
 disp(['Se han procesado las imágenes ' texto])
 disp('Tiempos medios:')
